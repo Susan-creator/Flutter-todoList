@@ -11,7 +11,7 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoListScreenState extends State<TodoListScreen> {
   Future<List<Task>> _taskList;
-  final DateFormat _dateFormatter = DateFormat('Mmm dd, yyyy');
+  final DateFormat _dateFormatter = DateFormat('MMM dd, yyyy');
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
               ),
             ),
             subtitle: Text(
-              '${_dateFormatter.format(task.date)} . ${task.priority}',
+              '${_dateFormatter.format(task.date)} .${task.priority}',
               style: TextStyle(
                 fontSize: 15.0,
                 decoration: task.status == 0
@@ -122,7 +122,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    
                       SizedBox(height: 10.0),
                       Text(
                         '$completedTaskCount of ${snapshot.data.length} ',

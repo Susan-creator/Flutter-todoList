@@ -33,53 +33,50 @@ class DatabaseHelper {
 
   void _createDb(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE $tasksTable($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colTitle TEXT,$colDate TEXT,$colPriority TEXT, $colStatus INTEGER)',
+      'CREATE TABLE $tasksTable($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colTitle TEXT,$colDate TEXT,$colPriority TEXT, $colStatus INTEGER)',
     );
   }
 
-  Future<List<Map<String, dynamic>>> getTaskMapList() async{
+  Future<List<Map<String, dynamic>>> getTaskMapList() async {
     Database db = await this.db;
-    final List<Map<String,dynamic>> result = await db.query(tasksTable);
+    final List<Map<String, dynamic>> result = await db.query(tasksTable);
     return result;
   }
 
-  Future<List<Task>> getTaskList()async{
+  Future<List<Task>> getTaskList() async {
     final List<Map<String, dynamic>> taskMapList = await getTaskMapList();
     final List<Task> taskList = [];
-    taskMapList.forEach((taskMap){
+    taskMapList.forEach((taskMap) {
       taskList.add(Task.fromMap(taskMap));
-
     });
-    taskList.sort((taskA,taskB) => taskA.date.compareTo(taskB.date));
+    taskList.sort((taskA, taskB) => taskA.date.compareTo(taskB.date));
     return taskList;
   }
 
-  Future<int> insertTask(Task task)async{
-    Database db = await this. db;
-   final int result = await db.insert(tasksTable, task.toMap());
-   return result;
+  Future<int> insertTask(Task task) async {
+    Database db = await this.db;
+    final int result = await db.insert(tasksTable, task.toMap());
+    return result;
   }
 
-  Future<int> updateTask(Task task)async{
+  Future<int> updateTask(Task task) async {
     Database db = await this.db;
     final int result = await db.update(
-      tasksTable, 
+      tasksTable,
       task.toMap(),
       where: '$colId = ?',
       whereArgs: [task.id],
-
-      );
-      return result;
+    );
+    return result;
   }
 
-  Future<int> deleteTask(int id)async{
+  Future<int> deleteTask(int id) async {
     Database db = await this.db;
     final int result = await db.delete(
-      tasksTable, 
+      tasksTable,
       where: '$colId = ?',
       whereArgs: [id],
-
-      );
-      return result;
+    );
+    return result;
   }
 }
